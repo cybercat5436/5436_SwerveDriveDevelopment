@@ -12,4 +12,25 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+
+    public class RoboRioPortConfig{
+        public static final int PDP = 0;
+
+        public static final int FRONT_LEFT_DRIVE = 1;
+        public static final int FRONT_RIGHT_DRIVE = 2;
+        public static final int BACK_LEFT_DRIVE = 3;
+        public static final int BACK_RIGHT_DRIVE = 4;
+        public static final int FRONT_LEFT_TURN = 5;
+        public static final int FRONT_RIGHT_TURN = 6;
+        public static final int BACK_LEFT_TURN = 7;
+        public static final int BACK_RIGHT_TURN = 8;
+    
+        public static final int ABSOLUTE_ENCODER_FRONT_LEFT = 0;
+        public static final int ABSOLUTE_ENCODER_FRONT_RIGHT = 1;
+        public static final int ABSOLUTE_ENCODER_BACK_LEFT = 2;
+        public static final int ABSOLUTE_ENCODER_BACK_RIGHT = 3;
+    
+    }
+
+}
