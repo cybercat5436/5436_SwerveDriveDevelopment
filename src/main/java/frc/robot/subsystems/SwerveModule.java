@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
 
@@ -70,8 +71,10 @@ public class SwerveModule extends SubsystemBase {
     spinEncoder.setPosition(0);
   }
 
-  //public SwerveModuleState getState() {
-  //}
+  /**public SwerveModuleState getState() {
+    return SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+  }**/
+
 
   public double getAbsoluteEncoderRadians() {
     double angle = absoluteEncoder.getVoltage() / RobotController.getCurrent5V();
