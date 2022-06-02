@@ -30,6 +30,10 @@ public final class Constants {
         public static final int ABSOLUTE_ENCODER_FRONT_RIGHT = 1;
         public static final int ABSOLUTE_ENCODER_BACK_LEFT = 2;
         public static final int ABSOLUTE_ENCODER_BACK_RIGHT = 3;
+
+
+        //Constants from manufacturer
+        public static final double DRIVE_MOTOR_GEAR_RATIO = 8.31;
     
     }
 
