@@ -20,7 +20,7 @@ public class SensorTester extends SubsystemBase{
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
     public SensorTester(){
-        frontLeftTurningEncoder = new AnalogInput(RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_LEFT);
+        frontLeftTurningEncoder = new AnalogInput(RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_LEFT);
         frontRighTurningEncoder = new AnalogInput(RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_RIGHT);
         backLeftTurningEncoder = new AnalogInput(RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_LEFT);
         backRightTurningEncoder = new AnalogInput(RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_RIGHT);
