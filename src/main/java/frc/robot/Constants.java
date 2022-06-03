@@ -37,4 +37,12 @@ public final class Constants {
     
     }
 
+    public class DriveConstants{
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = 3;
+    }
+
+    public class OIConstants{
+        public static final double K_DEADBAND = .15;
+    }
+
 }
