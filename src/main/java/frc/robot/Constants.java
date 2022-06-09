@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -13,6 +17,17 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    public static final class ModuleConstants {
+        public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
+        public static final double kDriveMotorGearRatio = 1 / 5.8462;
+        public static final double kTurningMotorGearRatio = 1 / 18.0;
+        public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
+        public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
+        public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
+        public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
+        public static final double kPTurning = 0.5;
+    }
 
     public class RoboRioPortConfig{
         public static final int PDP = 0;
@@ -31,17 +46,32 @@ public final class Constants {
         public static final int ABSOLUTE_ENCODER_BACK_LEFT = 2;
         public static final int ABSOLUTE_ENCODER_BACK_RIGHT = 3;
 
+        public static final int kFrontLeftDriveAbsoluteEncoderOffsetRad = 0;
+        public static final int kFrontRightDriveAbsoluteEncoderOffsetRad = 0;
+        public static final int kBackLeftDriveAbsoluteEncoderOffsetRad = 0;
+        public static final int kBackRightDriveAbsoluteEncoderOffsetRad = 0;
+        
+
 
         //Constants from manufacturer
         public static final double DRIVE_MOTOR_GEAR_RATIO = 8.31;
     
     }
 
-    public class DriveConstants{
+    public static class DriveConstants{
         public static final double kTeleDriveMaxSpeedMetersPerSecond = 3;
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
+        public static final double kTrackWidth = Units.inchesToMeters(19);
+        // Distance between right and left wheels
+        public static final double kWheelBase = Units.inchesToMeters(23.5);
+        public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
+                new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
     }
 
-    public class OIConstants{
+    public static class OIConstants{
         public static final double K_DEADBAND = .15;
     }
 

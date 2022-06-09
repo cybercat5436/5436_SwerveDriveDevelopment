@@ -5,68 +5,69 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
-public class SwerveModule extends SubsystemBase {
+public class SwerveModule{
 
-  private final CANSparkMax driverMotor;
-  private final CANSparkMax spinMotor;
+  private final CANSparkMax driveMotor;
+  private final CANSparkMax turningMotor;
 
-  private final RelativeEncoder driverEncoder;
-  private final RelativeEncoder spinEncoder;
+  private final CANEncoder driveEncoder;
+  private final CANEncoder turningEncoder;
+
+  private final PIDController turningPidController;
 
   private final AnalogInput absoluteEncoder;
-  private final double absoluteEncoderOffsetRadians;
-  private final boolean absoluteEncoderInversed;
-
-
-
-  private final PIDController spinPID;
-
-  private double kPSpin = 0.5;
+  private final boolean absoluteEncoderReversed;
+  private final double absoluteEncoderOffsetRad;
 
 
   /** Creates a new SwerveModule. */
-  public SwerveModule(int driverMotorPort, int spinMotorPort, boolean driveMotorInverse, boolean spinMotorInverse, int absoluteEncoderChannel, double absoluteEncoderOffset, boolean absoluteEncoderInversed) {
+  public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
+   int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
 
-    driverMotor = new CANSparkMax(driverMotorPort, MotorType.kBrushless);
-    spinMotor = new CANSparkMax(spinMotorPort, MotorType.kBrushless);
+    this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
+    this.absoluteEncoderReversed = absoluteEncoderReversed;
+    absoluteEncoder = new AnalogInput(absoluteEncoderId);
 
-    driverMotor.setInverted(driveMotorInverse);
-    spinMotor.setInverted(spinMotorInverse);
+    driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
+    turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
 
-    driverEncoder = driverMotor.getEncoder();
-    spinEncoder = spinMotor.getEncoder();
+    driveMotor.setInverted(driveMotorReversed);
+    turningMotor.setInverted(turningMotorReversed);
 
-    this.absoluteEncoderOffsetRadians = absoluteEncoderOffset;
-    this.absoluteEncoderInversed = absoluteEncoderInversed;
-    absoluteEncoder = new AnalogInput(absoluteEncoderChannel);
+    driveEncoder = driveMotor.getEncoder();
+    turningEncoder = turningMotor.getEncoder();
 
-    spinPID = new PIDController(kPSpin, 0, 0);
-    spinPID.enableContinuousInput(-Math.PI, Math.PI);
+    driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
+    driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
+    turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
+    turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
+
+    turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
+    turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
     //NEED TO ADD CONVERSIONS HERE
-
-    driverEncoder.setPositionConversionFactor(Constants.);
-    driverEncoder.setVelocityConversionFactor(Constants.);
-    spinEncoder.setPositionConversionFactor(Constants.);
-    spinEncoder.setVelocityConversionFactor(Constants.);
 
     resetEncoders();
   }
 
+  /*
   public double getDrivePosition() {
     return driverEncoder.getPosition();
   }
@@ -75,7 +76,7 @@ public class SwerveModule extends SubsystemBase {
     return spinEncoder.getPosition();
   }
 
-  public double getDriverVelocity() {
+  public double getDriveVelocity() {
     return driverEncoder.getVelocity();
   }
 
@@ -87,48 +88,65 @@ public class SwerveModule extends SubsystemBase {
     driverEncoder.setPosition(0);
     spinEncoder.setPosition(0);
   }
+  */
 
-  //public SwerveModuleState getState() {
-  //}
+  private void resetEncoders() {
+  }
+
+  public double getDrivePosition(){
+    return driveEncoder.getPosition();
+  }
+
+  public double getTurningPosition(){
+    return turningEncoder.getVelocity();
+  }
+
+  public double getDriveVelocity(){
+    return driveEncoder.getVelocity();
+  }
+
+
+
+  public SwerveModuleState getState() {
+    return SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+  }
+
+  //definetly ot right but gets rid of error
+  private SwerveModuleState SwerveModuleState(double driveVelocity, Rotation2d rotation2d) {
+    return null;
+  }
+
+  public void setDesiredState(SwerveModuleState state){
+      state = SwerveModuleState.optimize(state, getState().angle);
+      driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+      turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+      SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
+
+  }
+
 
   public double getAbsoluteEncoderRadians() {
     double angle = absoluteEncoder.getVoltage() / RobotController.getCurrent5V();
     angle *= 2 * Math.PI;
-    angle -= absoluteEncoderOffsetRadians;
-    if (absoluteEncoderInversed){
+    angle -= absoluteEncoderOffsetRad;
+    if (absoluteEncoderReversed){
       return angle * -1;
     } else {
       return angle;
     }
   }
 
-  public void setDesiredState(SwerveModuleState state){
-    if (Math.abs(state.speedMetersPerSecond) < 0.001) {
-      stop();
-    }
-    state = SwerveModuleState.optimize(state, getState().angle);
-    driverMotor.set(state.speedMetersPerSecond / Constants.);
-    spinMotor.set(spinPID.calculate(getSpinPosition(), state.angle.getRadians()));
-  }
-
-  public SwerveModuleState getState() {
-    return new SwerveModuleState(getDriverVelocity(), new Rotation2d(getSpinPosition()));
-  }
-
 
 
   public void stop() {
-    driverMotor.set(0);
-    spinMotor.set(0);
+    driveMotor.set(0);
+    turningMotor.set(0);
   }
 
-  public void initSendable(SendableBuilder builder) {
 
-    builder.addDoubleProperty("Spin P values", () -> this.kPSpin, value -> {kPSpin = value;});
-  }
 
-  @Override
+  /**@Override
   public void periodic() {
-    // This method will be called once per scheduler run
-  }
+   This method will be called once per scheduler run
+  } **/
 }
