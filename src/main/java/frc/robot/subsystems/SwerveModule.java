@@ -108,16 +108,20 @@ public class SwerveModule{
 
 
   public SwerveModuleState getState() {
-    return SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+    return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
   }
 
   //definetly ot right but gets rid of error
-  private SwerveModuleState SwerveModuleState(double driveVelocity, Rotation2d rotation2d) {
-    return null;
-  }
+  // private SwerveModuleState SwerveModuleState(double driveVelocity, Rotation2d rotation2d) {
+  //   return null;
+  // }
 
   public void setDesiredState(SwerveModuleState state){
-      state = SwerveModuleState.optimize(state, getState().angle);
+    if (Math.abs(state.speedMetersPerSecond) < 0.001) {
+      stop();
+      return;
+    }      
+    state = SwerveModuleState.optimize(state, getState().angle);
       driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
       turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
       SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());

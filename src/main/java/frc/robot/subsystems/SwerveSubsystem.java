@@ -20,6 +20,8 @@ import com.kauailabs.navx.frc.AHRS;
 /** Add your docs here. */
 public class SwerveSubsystem extends SubsystemBase{
 
+
+        
     private final SwerveModule frontLeft = new SwerveModule(
         Constants.RoboRioPortConfig.FRONT_LEFT_DRIVE,
         Constants.RoboRioPortConfig.FRONT_LEFT_TURN,
@@ -29,36 +31,45 @@ public class SwerveSubsystem extends SubsystemBase{
         Constants.RoboRioPortConfig.kFrontLeftDriveAbsoluteEncoderOffsetRad,
         false);
 
-private final SwerveModule frontRight = new SwerveModule(
-        Constants.RoboRioPortConfig.FRONT_RIGHT_DRIVE,
-        Constants.RoboRioPortConfig.FRONT_RIGHT_TURN,
-        false,
-        false,
-        Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_RIGHT,
-        Constants.RoboRioPortConfig.kFrontRightDriveAbsoluteEncoderOffsetRad,
-        false);
+    private final SwerveModule frontRight = new SwerveModule(
+            Constants.RoboRioPortConfig.FRONT_RIGHT_DRIVE,
+            Constants.RoboRioPortConfig.FRONT_RIGHT_TURN,
+            false,
+            false,
+            Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_RIGHT,
+            Constants.RoboRioPortConfig.kFrontRightDriveAbsoluteEncoderOffsetRad,
+            false);
 
-private final SwerveModule backLeft = new SwerveModule(
-        Constants.RoboRioPortConfig.BACK_LEFT_DRIVE,
-        Constants.RoboRioPortConfig.BACK_LEFT_TURN,
-        false,
-        false,
-        Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_LEFT,
-        Constants.RoboRioPortConfig.kBackLeftDriveAbsoluteEncoderOffsetRad,
-        false);
+    private final SwerveModule backLeft = new SwerveModule(
+            Constants.RoboRioPortConfig.BACK_LEFT_DRIVE,
+            Constants.RoboRioPortConfig.BACK_LEFT_TURN,
+            false,
+            false,
+            Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_LEFT,
+            Constants.RoboRioPortConfig.kBackLeftDriveAbsoluteEncoderOffsetRad,
+            false);
 
-private final SwerveModule backRight = new SwerveModule(
-        Constants.RoboRioPortConfig.BACK_RIGHT_DRIVE,
-        Constants.RoboRioPortConfig.BACK_RIGHT_TURN,
-        false,
-        false,
-        Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_RIGHT,
-        Constants.RoboRioPortConfig.kBackRightDriveAbsoluteEncoderOffsetRad,
-        false);
+    private final SwerveModule backRight = new SwerveModule(
+            Constants.RoboRioPortConfig.BACK_RIGHT_DRIVE,
+            Constants.RoboRioPortConfig.BACK_RIGHT_TURN,
+            false,
+            false,
+            Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_RIGHT,
+            Constants.RoboRioPortConfig.kBackRightDriveAbsoluteEncoderOffsetRad,
+            false);
 
-//idk if this is the gyro we have 
-private final AHRS gyro = new AHRS(SPI.Port.kMXP);
-public double getHeading(){
+    //idk if this is the gyro we have 
+    private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+    public SwerveSubsystem(){
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+                zeroHeading();
+            } catch (Exception e) {
+            }
+        }).start();
+    }
+    public double getHeading(){
     return Math.IEEEremainder(gyro.getAngle(), 360);
 }
 

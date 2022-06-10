@@ -27,10 +27,11 @@ public class SwerveJoystickCmd extends CommandBase {
                     this.swerveSubsystem = swerveSubsystem;
                     this.xSpdFunction = xSpdFunction;
                     this.ySpdFunction = ySpdFunction;
-                    this. turningSpdFunction = turningSpdFunction;
+                    this.turningSpdFunction = turningSpdFunction;
                     this.fieldOrientedFunction = fieldOrientedFunction;
-
+                    this.addRequirements(swerveSubsystem);
                 }
+                
 
     @Override
 
@@ -48,8 +49,7 @@ public class SwerveJoystickCmd extends CommandBase {
         // make driving smoother
         xSpeed = slewRateLimiter.calculate(xSpeed) *DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         ySpeed = slewRateLimiter.calculate(ySpeed) *DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        turningSpeed = slewRateLimiter.calculate(turningSpeed)
-        *DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        turningSpeed = slewRateLimiter.calculate(turningSpeed) *DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
 
         // convert speeds to reference frames
         ChassisSpeeds chassisSpeeds;
