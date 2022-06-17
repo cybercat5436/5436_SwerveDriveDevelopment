@@ -9,7 +9,9 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
@@ -83,7 +85,7 @@ public void zeroHeading(){
 }
 
 public void setModuleStates(SwerveModuleState[] desiredStates){
-    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kTeleDriveMaxSpeedMetersPerSecond);
     frontLeft.setDesiredState(desiredStates[0]);
     frontRight.setDesiredState(desiredStates[1]);
     backLeft.setDesiredState(desiredStates[2]);
@@ -94,5 +96,20 @@ public void setModuleStates(SwerveModuleState[] desiredStates){
 public void stopModules(){
 
 }
+@Override
+public void periodic() {
+
+    SmartDashboard.putNumber("FL Angle", frontLeft.getAbsoluteEncoderRadians());
+    SmartDashboard.putNumber("FR Angle", frontRight.getAbsoluteEncoderRadians());
+    SmartDashboard.putNumber("BL Angle", backLeft.getAbsoluteEncoderRadians());
+    SmartDashboard.putNumber("BR Angle", backRight.getAbsoluteEncoderRadians());
+    SmartDashboard.putNumber("BL Left Encoder Voltage", backLeft.getAbsoluteEncoder().getVoltage());
+    SmartDashboard.putNumber("5V RobotController", RobotController.getCurrent5V());
+    
+
 
 }
+
+}
+
+

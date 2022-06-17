@@ -98,11 +98,15 @@ public class SwerveModule{
   }
 
   public double getTurningPosition(){
-    return turningEncoder.getVelocity();
+    return turningEncoder.getPosition();
   }
 
   public double getDriveVelocity(){
     return driveEncoder.getVelocity();
+  }
+
+  public AnalogInput getAbsoluteEncoder(){
+    return this.absoluteEncoder;
   }
 
 
@@ -122,22 +126,35 @@ public class SwerveModule{
       return;
     }      
     state = SwerveModuleState.optimize(state, getState().angle);
-      driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-      turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
-      SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
+    driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+    turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+    SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
 
   }
 
 
   public double getAbsoluteEncoderRadians() {
-    double angle = absoluteEncoder.getVoltage() / RobotController.getCurrent5V();
+    // double angle = absoluteEncoder.getVoltage() / RobotController.getCurrent5V();
+    double angle = absoluteEncoder.getVoltage() / 5.0;
     angle *= 2 * Math.PI;
     angle -= absoluteEncoderOffsetRad;
     if (absoluteEncoderReversed){
-      return angle * -1;
-    } else {
-      return angle;
+      angle *= -1;
+    } 
+
+    angle = boundAngle(angle);
+    return angle;
+  }
+
+  private double boundAngle(double inputAngleRad){
+    double outputAngleRad = inputAngleRad;
+    if (outputAngleRad < 0){
+      outputAngleRad += (2*Math.PI);
+    } else if(outputAngleRad > (2*Math.PI)){
+      outputAngleRad -= (2 * Math.PI);
     }
+    return outputAngleRad;
+
   }
 
 
