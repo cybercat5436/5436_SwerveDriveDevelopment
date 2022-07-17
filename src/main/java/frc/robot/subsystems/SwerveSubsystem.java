@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -21,9 +23,8 @@ import com.kauailabs.navx.frc.AHRS;
 
 /** Add your docs here. */
 public class SwerveSubsystem extends SubsystemBase{
-
-
-        
+    
+    private ArrayList<SwerveModuleState> moduleStates = new ArrayList<>();
     private final SwerveModule frontLeft = new SwerveModule(
         Constants.RoboRioPortConfig.FRONT_LEFT_DRIVE,
         Constants.RoboRioPortConfig.FRONT_LEFT_TURN,
@@ -69,7 +70,11 @@ public class SwerveSubsystem extends SubsystemBase{
                 zeroHeading();
             } catch (Exception e) {
             }
-        }).start();
+        }).start(); 
+        moduleStates.add(new SwerveModuleState());
+        moduleStates.add(new SwerveModuleState());
+        moduleStates.add(new SwerveModuleState());
+        moduleStates.add(new SwerveModuleState());
     }
     public double getHeading(){
     return Math.IEEEremainder(gyro.getAngle(), 360);
@@ -85,6 +90,10 @@ public void zeroHeading(){
 }
 
 public void setModuleStates(SwerveModuleState[] desiredStates){
+    moduleStates.clear();
+    for(int i = 0; i < 4; i++){
+        moduleStates.add(desiredStates[i]);
+    }
     SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kTeleDriveMaxSpeedMetersPerSecond);
     frontLeft.setDesiredState(desiredStates[0]);
     frontRight.setDesiredState(desiredStates[1]);
@@ -100,12 +109,14 @@ public void stopModules(){
 public void periodic() {
 
     SmartDashboard.putNumber("FL Angle", frontLeft.getAbsoluteEncoderRadians());
+    SmartDashboard.putNumber("FL Turning Encoder", frontLeft.getTurningPosition());
     SmartDashboard.putNumber("FR Angle", frontRight.getAbsoluteEncoderRadians());
     SmartDashboard.putNumber("BL Angle", backLeft.getAbsoluteEncoderRadians());
     SmartDashboard.putNumber("BR Angle", backRight.getAbsoluteEncoderRadians());
     SmartDashboard.putNumber("BL Left Encoder Voltage", backLeft.getAbsoluteEncoder().getVoltage());
     SmartDashboard.putNumber("5V RobotController", RobotController.getCurrent5V());
     
+    SmartDashboard.putNumber("FL Target Angle", moduleStates.get(0).angle.getRadians());
 
 
 }

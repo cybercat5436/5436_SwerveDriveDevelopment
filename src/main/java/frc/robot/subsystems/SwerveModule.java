@@ -27,8 +27,8 @@ public class SwerveModule{
   private final CANSparkMax driveMotor;
   private final CANSparkMax turningMotor;
 
-  private final CANEncoder driveEncoder;
-  private final CANEncoder turningEncoder;
+  private final RelativeEncoder driveEncoder;
+  private final RelativeEncoder turningEncoder;
 
   private final PIDController turningPidController;
 
@@ -91,6 +91,12 @@ public class SwerveModule{
   */
 
   private void resetEncoders() {
+    driveEncoder.setPosition(0.0);
+    System.out.println(String.format("turningEncoder %.2f", turningEncoder.getPosition()));
+    System.out.println(String.format("absoluteEncoder %.2f", this.getAbsoluteEncoderRadians()));
+    turningEncoder.setPosition(getAbsoluteEncoderRadians());
+    System.out.println(String.format("after zero turningEncoder %.2f", turningEncoder.getPosition()));
+    System.out.println(String.format("after zero absoluteEncoder %.2f", this.getAbsoluteEncoderRadians()));
   }
 
   public double getDrivePosition(){
@@ -127,7 +133,7 @@ public class SwerveModule{
     }      
     state = SwerveModuleState.optimize(state, getState().angle);
     driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-    turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+    turningMotor.set(turningPidController.calculate(turningEncoder.getPosition(), state.angle.getRadians()));
     SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
 
   }
@@ -136,7 +142,7 @@ public class SwerveModule{
   public double getAbsoluteEncoderRadians() {
     // double angle = absoluteEncoder.getVoltage() / RobotController.getCurrent5V();
     double angle = absoluteEncoder.getVoltage() / 5.0;
-    angle *= 2 * Math.PI;
+    angle *= 2 * Math.PI - Math.PI;
     angle -= absoluteEncoderOffsetRad;
     if (absoluteEncoderReversed){
       angle *= -1;
@@ -148,9 +154,9 @@ public class SwerveModule{
 
   private double boundAngle(double inputAngleRad){
     double outputAngleRad = inputAngleRad;
-    if (outputAngleRad < 0){
+    if (outputAngleRad <= -Math.PI){
       outputAngleRad += (2*Math.PI);
-    } else if(outputAngleRad > (2*Math.PI)){
+    } else if(outputAngleRad > (Math.PI)){
       outputAngleRad -= (2 * Math.PI);
     }
     return outputAngleRad;
