@@ -34,6 +34,7 @@ public class SwerveSubsystem extends SubsystemBase{
         Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_LEFT,
         Constants.RoboRioPortConfig.kFrontLeftDriveAbsoluteEncoderOffsetRad,
         false,
+        IdleMode.kCoast,
         IdleMode.kCoast);
 
     private final SwerveModule frontRight = new SwerveModule(
@@ -44,6 +45,7 @@ public class SwerveSubsystem extends SubsystemBase{
             Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_RIGHT,
             Constants.RoboRioPortConfig.kFrontRightDriveAbsoluteEncoderOffsetRad,
             false,
+            IdleMode.kCoast,
             IdleMode.kCoast);
 
     private final SwerveModule backLeft = new SwerveModule(
@@ -54,6 +56,7 @@ public class SwerveSubsystem extends SubsystemBase{
             Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_LEFT,
             Constants.RoboRioPortConfig.kBackLeftDriveAbsoluteEncoderOffsetRad,
             false,
+            IdleMode.kCoast,
             IdleMode.kCoast);
 
     private final SwerveModule backRight = new SwerveModule(
@@ -64,6 +67,7 @@ public class SwerveSubsystem extends SubsystemBase{
             Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_RIGHT,
             Constants.RoboRioPortConfig.kBackRightDriveAbsoluteEncoderOffsetRad,
             false,
+            IdleMode.kCoast,
             IdleMode.kCoast);
 
     //idk if this is the gyro we have 

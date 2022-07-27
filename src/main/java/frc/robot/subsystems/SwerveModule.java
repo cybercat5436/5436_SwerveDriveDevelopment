@@ -40,7 +40,7 @@ public class SwerveModule{
 
   /** Creates a new SwerveModule. */
   public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
-   int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed, IdleMode mode) {
+   int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed, IdleMode driveMode, IdleMode turningMode) {
 
     this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
     this.absoluteEncoderReversed = absoluteEncoderReversed;
@@ -49,10 +49,19 @@ public class SwerveModule{
     driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
     turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
 
+    driveMotor.clearFaults();
+    turningMotor.clearFaults();
+
+    driveMotor.restoreFactoryDefaults();
+    turningMotor.restoreFactoryDefaults();
+
     driveMotor.setInverted(driveMotorReversed);
     turningMotor.setInverted(turningMotorReversed);
 
-    driveMotor.setIdleMode(mode);
+    driveMotor.setIdleMode(driveMode);
+    turningMotor.setIdleMode(turningMode);
+
+
 
     driveEncoder = driveMotor.getEncoder();
     turningEncoder = turningMotor.getEncoder();
