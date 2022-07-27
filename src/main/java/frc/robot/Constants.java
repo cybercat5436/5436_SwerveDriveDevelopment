@@ -26,7 +26,7 @@ public final class Constants {
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-        public static final double kPTurning = 0.05;
+        public static final double kPTurning = .5;
     }
 
     public class RoboRioPortConfig{
@@ -46,10 +46,10 @@ public final class Constants {
         public static final int ABSOLUTE_ENCODER_BACK_LEFT = 2;
         public static final int ABSOLUTE_ENCODER_BACK_RIGHT = 3;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 5.09;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 2.83;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 1.13;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 3.98;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 1.9;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 1.29;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -1.4;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -2.53;
         
 
 
