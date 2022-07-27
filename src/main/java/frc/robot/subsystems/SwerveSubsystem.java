@@ -76,8 +76,9 @@ public class SwerveSubsystem extends SubsystemBase{
         moduleStates.add(new SwerveModuleState());
         moduleStates.add(new SwerveModuleState());
     }
+
     public double getHeading(){
-    return Math.IEEEremainder(gyro.getAngle(), 360);
+    return Math.IEEEremainder(-(gyro.getAngle()), 360);
 }
 
 public Rotation2d getRotation2d(){
@@ -117,8 +118,9 @@ public void periodic() {
     SmartDashboard.putNumber("5V RobotController", RobotController.getCurrent5V());
     
     SmartDashboard.putNumber("FL Target Angle", moduleStates.get(0).angle.getRadians());
+    SmartDashboard.putNumber("Gyro", gyro.getAngle());
 
-
+    SmartDashboard.putNumber("Mystery", getHeading());
 }
 
 }

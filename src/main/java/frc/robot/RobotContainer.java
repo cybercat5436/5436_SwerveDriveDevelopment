@@ -33,7 +33,7 @@ public class RobotContainer {
       swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
         swerveSubsystem,
         () -> -xboxController.getLeftY(),
-        () -> xboxController.getLeftX(),
+        () -> -xboxController.getLeftX(),
         () -> xboxController.getRightX(),
         () -> !xboxController.getStartButtonPressed()));
       // Configure the button bindings
