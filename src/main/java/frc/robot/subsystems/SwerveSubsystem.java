@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.util.ArrayList;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -32,7 +33,8 @@ public class SwerveSubsystem extends SubsystemBase{
         false,
         Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_LEFT,
         Constants.RoboRioPortConfig.kFrontLeftDriveAbsoluteEncoderOffsetRad,
-        false);
+        false,
+        IdleMode.kCoast);
 
     private final SwerveModule frontRight = new SwerveModule(
             Constants.RoboRioPortConfig.FRONT_RIGHT_DRIVE,
@@ -41,7 +43,8 @@ public class SwerveSubsystem extends SubsystemBase{
             false,
             Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_RIGHT,
             Constants.RoboRioPortConfig.kFrontRightDriveAbsoluteEncoderOffsetRad,
-            false);
+            false,
+            IdleMode.kCoast);
 
     private final SwerveModule backLeft = new SwerveModule(
             Constants.RoboRioPortConfig.BACK_LEFT_DRIVE,
@@ -50,7 +53,8 @@ public class SwerveSubsystem extends SubsystemBase{
             false,
             Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_LEFT,
             Constants.RoboRioPortConfig.kBackLeftDriveAbsoluteEncoderOffsetRad,
-            false);
+            false,
+            IdleMode.kCoast);
 
     private final SwerveModule backRight = new SwerveModule(
             Constants.RoboRioPortConfig.BACK_RIGHT_DRIVE,
@@ -59,7 +63,8 @@ public class SwerveSubsystem extends SubsystemBase{
             false,
             Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_RIGHT,
             Constants.RoboRioPortConfig.kBackRightDriveAbsoluteEncoderOffsetRad,
-            false);
+            false,
+            IdleMode.kCoast);
 
     //idk if this is the gyro we have 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);

@@ -11,6 +11,7 @@ import frc.robot.Constants.ModuleConstants;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -39,7 +40,7 @@ public class SwerveModule{
 
   /** Creates a new SwerveModule. */
   public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
-   int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
+   int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed, IdleMode mode) {
 
     this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
     this.absoluteEncoderReversed = absoluteEncoderReversed;
@@ -50,6 +51,8 @@ public class SwerveModule{
 
     driveMotor.setInverted(driveMotorReversed);
     turningMotor.setInverted(turningMotorReversed);
+
+    driveMotor.setIdleMode(mode);
 
     driveEncoder = driveMotor.getEncoder();
     turningEncoder = turningMotor.getEncoder();
