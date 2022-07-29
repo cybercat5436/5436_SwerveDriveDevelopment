@@ -33,7 +33,7 @@ public class SwerveSubsystem extends SubsystemBase{
         false,
         Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_LEFT,
         Constants.RoboRioPortConfig.kFrontLeftDriveAbsoluteEncoderOffsetRad,
-        false,
+        true,
         IdleMode.kCoast,
         IdleMode.kCoast);
 
@@ -44,7 +44,7 @@ public class SwerveSubsystem extends SubsystemBase{
             false,
             Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_RIGHT,
             Constants.RoboRioPortConfig.kFrontRightDriveAbsoluteEncoderOffsetRad,
-            false,
+            true,
             IdleMode.kCoast,
             IdleMode.kCoast);
 
@@ -55,7 +55,7 @@ public class SwerveSubsystem extends SubsystemBase{
             false,
             Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_LEFT,
             Constants.RoboRioPortConfig.kBackLeftDriveAbsoluteEncoderOffsetRad,
-            false,
+            true,
             IdleMode.kCoast,
             IdleMode.kCoast);
 
@@ -66,7 +66,7 @@ public class SwerveSubsystem extends SubsystemBase{
             false,
             Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_RIGHT,
             Constants.RoboRioPortConfig.kBackRightDriveAbsoluteEncoderOffsetRad,
-            false,
+            true,
             IdleMode.kCoast,
             IdleMode.kCoast);
 

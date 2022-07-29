@@ -34,7 +34,7 @@ public class RobotContainer {
         swerveSubsystem,
         () -> -xboxController.getLeftY(),
         () -> -xboxController.getLeftX(),
-        () -> xboxController.getRightX(),
+        () -> -xboxController.getRightX(),
         () -> !xboxController.getStartButtonPressed()));
       // Configure the button bindings
 

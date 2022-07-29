@@ -72,6 +72,8 @@ public class SwerveJoystickCmd extends CommandBase {
 
         SmartDashboard.putBoolean("fieldOrientedFlag", fieldOrientedFunction.get());
         SmartDashboard.putNumber("Left Stick Y", xSpdFunction.get());
+        SmartDashboard.putNumber("Left Stick X", ySpdFunction.get());
+        SmartDashboard.putNumber("Drive Angle", Math.atan2(ySpdFunction.get(), xSpdFunction.get()));
 
 
     }

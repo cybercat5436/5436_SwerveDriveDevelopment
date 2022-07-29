@@ -101,10 +101,10 @@
               "_title": "Left Stick Y"
             }
           },
-          "8,0": {
+          "8,2": {
             "size": [
-              1,
-              1
+              4,
+              2
             ],
             "content": {
               "_type": "Text View",
@@ -209,6 +209,50 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Mystery",
               "_title": "/SmartDashboard/Mystery"
+            }
+          },
+          "4,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Left Stick X",
+              "_title": "Left Stick X"
+            }
+          },
+          "5,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drive Angle",
+              "_title": "Drive Angle"
+            }
+          },
+          "7,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Left Stick X",
+              "_title": "/SmartDashboard/Left Stick X"
+            }
+          },
+          "8,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drive Angle",
+              "_title": "/SmartDashboard/Drive Angle"
             }
           }
         }
@@ -326,9 +370,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -8.0,
-    "y": -8.0,
-    "width": 1936.0,
-    "height": 1056.0
+    "x": -6.0,
+    "y": 1.0,
+    "width": 1932.0,
+    "height": 1045.0
   }
 }
