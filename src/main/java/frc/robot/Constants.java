@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -59,8 +60,14 @@ public final class Constants {
     }
 
     public static class DriveConstants{
+        /**we use the constants to make them a 1/4 of max speed
+        because otherwise it would be too fast to control that is why making these numbers slower makes the 
+        robot faster**/
         public static final double kTeleDriveMaxSpeedMetersPerSecond = 8;
         public static final double kPhysicalMaxSpeedMetersPerSecond = 2;
+        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
+
+
         public static final double kTrackWidth = Units.inchesToMeters(19);
         // Distance between right and left wheels
         public static final double kWheelBase = Units.inchesToMeters(23.5);
@@ -73,6 +80,22 @@ public final class Constants {
 
     public static class OIConstants{
         public static final double K_DEADBAND = .15;
+    }
+
+    public static final class AutoConstants {
+        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
+        public static final double kMaxAngularSpeedRadiansPerSecond = //
+                DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
+        public static final double kPXController = 1.5;
+        public static final double kPYController = 1.5;
+        public static final double kPThetaController = 3;
+
+        public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
+                new TrapezoidProfile.Constraints(
+                        kMaxAngularSpeedRadiansPerSecond,
+                        kMaxAngularAccelerationRadiansPerSecondSquared);
     }
 
 }

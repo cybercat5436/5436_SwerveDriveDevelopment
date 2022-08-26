@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
@@ -72,6 +74,8 @@ public class SwerveSubsystem extends SubsystemBase{
 
     //idk if this is the gyro we have 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+    private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
+     new Rotation2d(0));
     public SwerveSubsystem(){
         new Thread(() -> {
             try {
@@ -93,6 +97,14 @@ public class SwerveSubsystem extends SubsystemBase{
 public Rotation2d getRotation2d(){
 
     return Rotation2d.fromDegrees(getHeading());
+}
+
+public Pose2d getPose(){
+    return odometry.getPoseMeters();
+}
+
+public void resetOdometry(Pose2d pose){
+    odometry.resetPosition(pose, getRotation2d());
 }
 
 public void zeroHeading(){
@@ -117,6 +129,8 @@ public void stopModules(){
 }
 @Override
 public void periodic() {
+    odometry.update(getRotation2d(), frontLeft.getState(), frontRight.getState(),backLeft.getState(), backRight.getState());
+    SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
 
     SmartDashboard.putNumber("FL Angle", frontLeft.getAbsoluteEncoderRadians());
     SmartDashboard.putNumber("FL Turning Encoder", frontLeft.getTurningPosition());

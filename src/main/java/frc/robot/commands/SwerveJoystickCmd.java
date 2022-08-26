@@ -46,6 +46,8 @@ public class SwerveJoystickCmd extends CommandBase {
         double turningSpeed = turningSpdFunction.get();
 
         //apply dead band 
+        //this is where the limit is placed i belive but in the video it is written like what we have commeneted out 
+
         xSpeed = Math.abs(xSpeed) > OIConstants.K_DEADBAND ? xSpeed : 0.0 *DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         ySpeed = Math.abs(ySpeed) > OIConstants.K_DEADBAND ? ySpeed : 0.0 *DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         turningSpeed = Math.abs(turningSpeed) > OIConstants.K_DEADBAND ? turningSpeed : 0.0;
