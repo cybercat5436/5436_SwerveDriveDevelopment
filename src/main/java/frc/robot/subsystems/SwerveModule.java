@@ -61,7 +61,7 @@ public class SwerveModule{
     driveMotor.setIdleMode(driveMode);
     turningMotor.setIdleMode(turningMode);
 
-
+    
 
     driveEncoder = driveMotor.getEncoder();
     turningEncoder = turningMotor.getEncoder();
@@ -147,6 +147,8 @@ public class SwerveModule{
     driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
     turningMotor.set(turningPidController.calculate(turningEncoder.getPosition(), state.angle.getRadians()));
     SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
+    double driveMotorPower = state.speedMetersPerSecond /DriveConstants.kPhysicalMaxSpeedMetersPerSecond;
+    SmartDashboard.putNumber("Drive Motor Power", driveMotorPower);
 
   }
 

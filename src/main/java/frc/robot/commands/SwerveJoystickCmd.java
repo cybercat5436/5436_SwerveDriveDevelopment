@@ -46,9 +46,26 @@ public class SwerveJoystickCmd extends CommandBase {
         double turningSpeed = turningSpdFunction.get();
 
         //apply dead band 
-        xSpeed = Math.abs(xSpeed) > OIConstants.K_DEADBAND ? xSpeed : 0.0 *DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        ySpeed = Math.abs(ySpeed) > OIConstants.K_DEADBAND ? ySpeed : 0.0 *DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        turningSpeed = Math.abs(turningSpeed) > OIConstants.K_DEADBAND ? turningSpeed : 0.0;
+        //xSpeed = Math.abs(xSpeed) > OIConstants.K_DEADBAND ? xSpeed : 0.0 *DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        if (Math.abs(xSpeed) > OIConstants.K_DEADBAND) {
+            xSpeed *= DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        } else {
+            xSpeed = 0.0;
+        }
+        //ySpeed = Math.abs(ySpeed) > OIConstants.K_DEADBAND ? ySpeed : 0.0 *DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        if (Math.abs(ySpeed) > OIConstants.K_DEADBAND){
+            ySpeed *= DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        } else {
+            ySpeed = 0.0;
+        }
+
+        //turningSpeed = Math.abs(turningSpeed) > OIConstants.K_DEADBAND ? turningSpeed : 0.0;
+
+        if (Math.abs(turningSpeed) > OIConstants.K_DEADBAND){
+            turningSpeed *= DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        } else {
+            turningSpeed = 0.0;
+        }
 
         // make driving smoother
         // xSpeed = slewRateLimiter.calculate(xSpeed) *DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
@@ -71,9 +88,11 @@ public class SwerveJoystickCmd extends CommandBase {
         swerveSubsystem.setModuleStates(moduleStates);
 
         SmartDashboard.putBoolean("fieldOrientedFlag", fieldOrientedFunction.get());
-        SmartDashboard.putNumber("Left Stick Y", xSpdFunction.get());
-        SmartDashboard.putNumber("Left Stick X", ySpdFunction.get());
-        SmartDashboard.putNumber("Drive Angle", Math.atan2(ySpdFunction.get(), xSpdFunction.get()));
+        SmartDashboard.putNumber("Left Stick Y", xSpeed);
+        SmartDashboard.putNumber("Left Stick X", ySpeed);
+        SmartDashboard.putNumber("Drive Angle", Math.atan2(ySpeed,xSpeed));
+        SmartDashboard.putNumber("vxSpeed", chassisSpeeds.vxMetersPerSecond);
+        SmartDashboard.putNumber("vySpeed", chassisSpeeds.vyMetersPerSecond);
 
 
     }
