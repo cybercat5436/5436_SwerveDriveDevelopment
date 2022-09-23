@@ -47,10 +47,10 @@ public final class Constants {
         public static final int ABSOLUTE_ENCODER_BACK_LEFT = 2;
         public static final int ABSOLUTE_ENCODER_BACK_RIGHT = 3;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 1.26;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 1.87;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -1.66;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -.58f;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -2.32;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -2.53;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -1.73;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 1.52;
         
 
 
@@ -88,8 +88,9 @@ public final class Constants {
                 DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
-        public static final double kPXController = 1.5;
-        public static final double kPYController = 1.5;
+        //used to be 1.5
+        public static final double kPXController = 1;
+        public static final double kPYController = 1;
         public static final double kPThetaController = 3;
 
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
