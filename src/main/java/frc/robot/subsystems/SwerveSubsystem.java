@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +25,12 @@ import com.kauailabs.navx.frc.AHRS;
 
 /** Add your docs here. */
 public class SwerveSubsystem extends SubsystemBase{
+
+    private double frontLeftDriveAbsoluteEncoderOffsetRad;
+    private double frontRightDriveAbsoluteEncoderOFfsetRad;
+    private double backLeftDriveAbsoluteEncoderOffsetRad;
+    private double backRightDriveAbsoluteEncoderOffsetRad;
+    boolean zeroEncoders = false;
     
     private ArrayList<SwerveModuleState> moduleStates = new ArrayList<>();
     private final SwerveModule frontLeft = new SwerveModule(
@@ -130,6 +137,28 @@ public void periodic() {
     SmartDashboard.putNumber("Gyro", gyro.getAngle());
 
     SmartDashboard.putNumber("Mystery", getHeading());
+    
+    
+}
+
+public void initSendable(SendableBuilder builder, boolean zeroEncoders){
+    builder.addDoubleProperty("Back Left Absolute Encoder Radians", () -> this.backLeftDriveAbsoluteEncoderOffsetRad, value -> this.backLeftDriveAbsoluteEncoderOffsetRad = value);
+    builder.addDoubleProperty("Back Right Absolute Encoder Radians", () -> this.backRightDriveAbsoluteEncoderOffsetRad, value -> this.backRightDriveAbsoluteEncoderOffsetRad = value);
+    builder.addDoubleProperty("Front Left Absolute Encoder Radians", () -> this.frontLeftDriveAbsoluteEncoderOffsetRad, value -> this.frontLeftDriveAbsoluteEncoderOffsetRad = value);
+    builder.addDoubleProperty("Front Right Absolute Encoder Radians", () -> this.frontRightDriveAbsoluteEncoderOFfsetRad, value -> this.frontRightDriveAbsoluteEncoderOFfsetRad = value);
+
+    builder.addBooleanProperty("Zero Encoders", () -> this.zeroEncoders, this::zeroEncoders);
+
+}
+
+public void zeroEncoders(boolean resetFlag){
+    backLeftDriveAbsoluteEncoderOffsetRad = 0;
+    backRightDriveAbsoluteEncoderOffsetRad = 0;
+    frontLeftDriveAbsoluteEncoderOffsetRad = 0;
+    backRightDriveAbsoluteEncoderOffsetRad = 0;
+
+    zeroEncoders = false; 
+    
 }
 
 }
