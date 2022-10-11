@@ -50,12 +50,7 @@ public final class Constants {
         public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 2.74;
         public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -1.77;
         public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -2.50;
-        
-
-
-        //Constants from manufacturer
-        public static final double DRIVE_MOTOR_GEAR_RATIO = 8.31;
-    
+            
     }
 
     public static class DriveConstants{
