@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -31,8 +32,6 @@ public class SwerveJoystickCmd extends CommandBase {
                     this.turningSpdFunction = turningSpdFunction;
                     this.fieldOrientedFunction = fieldOrientedFunction;
                     this.addRequirements(swerveSubsystem);
-
-
 
                 }
                 
@@ -86,6 +85,12 @@ public class SwerveJoystickCmd extends CommandBase {
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
         swerveSubsystem.setModuleStates(moduleStates);
+        for(int i = 0; i< moduleStates.length; i++){
+
+            DataLogManager.log(String.format("module %d %f", i, moduleStates[i].speedMetersPerSecond));
+
+        }
+        
 
         SmartDashboard.putBoolean("fieldOrientedFlag", fieldOrientedFunction.get());
         SmartDashboard.putNumber("Left Stick Y", xSpeed);

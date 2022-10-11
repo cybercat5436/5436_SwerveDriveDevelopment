@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import enums.WheelPosition;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
@@ -17,13 +18,16 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
-public class SwerveModule{
+public class SwerveModule implements Sendable{
 
   private final CANSparkMax driveMotor;
   private final CANSparkMax turningMotor;
@@ -37,11 +41,14 @@ public class SwerveModule{
   private final boolean absoluteEncoderReversed;
   private final double absoluteEncoderOffsetRad;
 
+  public final WheelPosition wheelPosition;
+
 
   /** Creates a new SwerveModule. */
-  public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
+  public SwerveModule(WheelPosition wheelPosition, int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
    int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed, IdleMode driveMode, IdleMode turningMode) {
 
+    this.wheelPosition = wheelPosition;
     this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
     this.absoluteEncoderReversed = absoluteEncoderReversed;
     absoluteEncoder = new AnalogInput(absoluteEncoderId);
@@ -60,8 +67,6 @@ public class SwerveModule{
 
     driveMotor.setIdleMode(driveMode);
     turningMotor.setIdleMode(turningMode);
-
-    
 
     driveEncoder = driveMotor.getEncoder();
     turningEncoder = turningMotor.getEncoder();
@@ -104,11 +109,14 @@ public class SwerveModule{
 
   private void resetEncoders() {
     driveEncoder.setPosition(0.0);
-    System.out.println(String.format("turningEncoder %.2f", turningEncoder.getPosition()));
-    System.out.println(String.format("absoluteEncoder %.2f", this.getAbsoluteEncoderRadians()));
+    
+    DataLogManager.log(String.format("About to reset encoders for position %s", this.wheelPosition.name()));
+    DataLogManager.log(String.format("turning Encoder %.2f", turningEncoder.getPosition()));
+    DataLogManager.log(String.format("absoluteEncoder %.2f", this.getAbsoluteEncoderRadians()));
     turningEncoder.setPosition(getAbsoluteEncoderRadians());
-    System.out.println(String.format("after zero turningEncoder %.2f", turningEncoder.getPosition()));
-    System.out.println(String.format("after zero absoluteEncoder %.2f", this.getAbsoluteEncoderRadians()));
+    DataLogManager.log(String.format("After reset encoders for position %s", this.wheelPosition.name()));
+    DataLogManager.log(String.format("after zero turningEncoder %.2f", turningEncoder.getPosition()));
+    DataLogManager.log(String.format("after zero absoluteEncoder %.2f", this.getAbsoluteEncoderRadians()));
   }
 
   public double getDrivePosition(){
@@ -139,16 +147,22 @@ public class SwerveModule{
   // }
 
   public void setDesiredState(SwerveModuleState state){
+    
     if (Math.abs(state.speedMetersPerSecond) < 0.001) {
       stop();
       return;
-    }      
+    }
+
     state = SwerveModuleState.optimize(state, getState().angle);
-    driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-    turningMotor.set(turningPidController.calculate(turningEncoder.getPosition(), state.angle.getRadians()));
-    SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
     double driveMotorPower = state.speedMetersPerSecond /DriveConstants.kPhysicalMaxSpeedMetersPerSecond;
-    SmartDashboard.putNumber("Drive Motor Power", driveMotorPower);
+    
+    driveMotor.set(driveMotorPower);
+
+    turningMotor.set(turningPidController.calculate(turningEncoder.getPosition(), state.angle.getRadians()));
+
+    SmartDashboard.putString(String.format("%s Modue State", this.wheelPosition.name()), state.toString());
+    
+    SmartDashboard.putNumber(String.format("%s Drive Motor Power", this.wheelPosition.name()) , driveMotorPower);
 
   }
 
@@ -182,6 +196,13 @@ public class SwerveModule{
     driveMotor.set(0);
     turningMotor.set(0);
   }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    // TODO Auto-generated method stub
+    builder.addDoubleProperty("Power From Module", () -> this.getDriveVelocity(), null);
+  }
+
 
 
 

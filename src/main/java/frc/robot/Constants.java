@@ -46,10 +46,10 @@ public final class Constants {
         public static final int ABSOLUTE_ENCODER_BACK_LEFT = 2;
         public static final int ABSOLUTE_ENCODER_BACK_RIGHT = 3;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -2.32;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 1.86;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -1.67;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -.63;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 2.82;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 2.74;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -1.77;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -2.50;
         
 
 
@@ -59,7 +59,7 @@ public final class Constants {
     }
 
     public static class DriveConstants{
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = 6;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = 4;
         public static final double kPhysicalMaxSpeedMetersPerSecond = 8;
         public static final double kTrackWidth = Units.inchesToMeters(19);
         // Distance between right and left wheels

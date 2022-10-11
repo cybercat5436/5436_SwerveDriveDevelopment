@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -14,6 +15,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -39,7 +41,9 @@ public class RobotContainer {
       // Configure the button bindings
 
       configureButtonBindings();
-      
+      DataLogManager.logNetworkTables(true);
+      DataLogManager.start();
+      DataLogManager.log("Started the DataLogManager!!!");
     }
   
     /**

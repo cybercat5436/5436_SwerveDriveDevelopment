@@ -298,6 +298,204 @@
               "_source0": "network_table:///SmartDashboard/Robot Location",
               "_title": "Robot Location"
             }
+          },
+          "2,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BL Encoder Voltage",
+              "_title": "BL Encoder Voltage"
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Loop Count: ",
+              "_title": "Loop Count: "
+            }
+          },
+          "3,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/SwerveSubsystem/BL Power",
+              "_title": "/LiveWindow/SwerveSubsystem/BL Power"
+            }
+          },
+          "5,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/SwerveSubsystem/BR Power",
+              "_title": "/LiveWindow/SwerveSubsystem/BR Power"
+            }
+          },
+          "3,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/SwerveSubsystem/FL Power",
+              "_title": "/LiveWindow/SwerveSubsystem/FL Power"
+            }
+          },
+          "5,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/SwerveSubsystem/FR Power",
+              "_title": "/LiveWindow/SwerveSubsystem/FR Power"
+            }
+          },
+          "4,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/FRONT_RIGHT Target Angle",
+              "_title": "FRONT_RIGHT Target Angle"
+            }
+          },
+          "5,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BACK_RIGHT Angle",
+              "_title": "BACK_RIGHT Angle"
+            }
+          },
+          "6,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BACK_RIGHT Target Angle",
+              "_title": "BACK_RIGHT Target Angle"
+            }
+          },
+          "9,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/FRONT_LEFT Target Angle",
+              "_title": "FRONT_LEFT Target Angle"
+            }
+          },
+          "10,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BACK_LEFT Target Angle",
+              "_title": "BACK_LEFT Target Angle"
+            }
+          },
+          "11,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/FRONT_LEFT Angle",
+              "_title": "FRONT_LEFT Angle"
+            }
+          },
+          "12,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/FRONT_LEFT Turning Encoder",
+              "_title": "FRONT_LEFT Turning Encoder"
+            }
+          },
+          "0,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BACK_LEFT Angle",
+              "_title": "BACK_LEFT Angle"
+            }
+          },
+          "4,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BACK_LEFT Turning Encoder",
+              "_title": "BACK_LEFT Turning Encoder"
+            }
+          },
+          "6,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/FRONT_RIGHT Turning Encoder",
+              "_title": "FRONT_RIGHT Turning Encoder"
+            }
+          },
+          "12,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BACK_RIGHT Turning Encoder",
+              "_title": "BACK_RIGHT Turning Encoder"
+            }
+          },
+          "0,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/FRONT_RIGHT Angle",
+              "_title": "FRONT_RIGHT Angle"
+            }
           }
         }
       }
@@ -481,7 +679,174 @@
               "_source0": "network_table:///LiveWindow/SwerveSubsystem",
               "_title": "SwerveSubsystem",
               "Layout/Label position": "BOTTOM",
-              "_children": []
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BL Power",
+                  "_title": "BL Power"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FL Power",
+                  "_title": "FL Power"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BR Power",
+                  "_title": "BR Power"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FR Power",
+                  "_title": "FR Power"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Tab 3",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "4,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BACK_LEFT Angle",
+              "_title": "/SmartDashboard/BACK_LEFT Angle"
+            }
+          },
+          "5,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BACK_RIGHT Angle",
+              "_title": "/SmartDashboard/BACK_RIGHT Angle"
+            }
+          },
+          "4,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/FRONT_LEFT Angle",
+              "_title": "/SmartDashboard/FRONT_LEFT Angle"
+            }
+          },
+          "5,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/FRONT_RIGHT Angle",
+              "_title": "/SmartDashboard/FRONT_RIGHT Angle"
+            }
+          },
+          "7,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BACK_LEFT Target Angle",
+              "_title": "/SmartDashboard/BACK_LEFT Target Angle"
+            }
+          },
+          "8,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BACK_RIGHT Target Angle",
+              "_title": "/SmartDashboard/BACK_RIGHT Target Angle"
+            }
+          },
+          "7,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/FRONT_LEFT Target Angle",
+              "_title": "/SmartDashboard/FRONT_LEFT Target Angle"
+            }
+          },
+          "8,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/FRONT_RIGHT Target Angle",
+              "_title": "/SmartDashboard/FRONT_RIGHT Target Angle"
+            }
+          },
+          "5,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/FRONT_RIGHT Turning Encoder",
+              "_title": "/SmartDashboard/FRONT_RIGHT Turning Encoder"
+            }
+          },
+          "4,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/FRONT_LEFT Turning Encoder",
+              "_title": "/SmartDashboard/FRONT_LEFT Turning Encoder"
+            }
+          },
+          "5,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BACK_RIGHT Turning Encoder",
+              "_title": "/SmartDashboard/BACK_RIGHT Turning Encoder"
+            }
+          },
+          "4,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BACK_LEFT Turning Encoder",
+              "_title": "/SmartDashboard/BACK_LEFT Turning Encoder"
             }
           }
         }
@@ -489,9 +854,9 @@
     }
   ],
   "windowGeometry": {
-    "x": 953.0,
-    "y": 0.0,
-    "width": 974.0,
-    "height": 1047.0
+    "x": -8.0,
+    "y": -8.0,
+    "width": 1936.0,
+    "height": 1048.0
   }
 }
