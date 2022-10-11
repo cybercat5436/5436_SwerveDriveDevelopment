@@ -1,4 +1,4 @@
-package enums;
+package frc.robot.enums;
 
 public enum WheelPosition {
     FRONT_LEFT,
