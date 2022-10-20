@@ -59,16 +59,12 @@ public final class Constants {
     
     }
 
+
     public static class DriveConstants{
-        /**we use the constants to make them a 1/4 of max speed
-        because otherwise it would be too fast to control that is why making these numbers slower makes the 
-        robot faster**/
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = 8;
-        public static final double kPhysicalMaxSpeedMetersPerSecond = 2;
-        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
-
-
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = 4;
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 8;
         public static final double kTrackWidth = Units.inchesToMeters(19);
+        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
         // Distance between right and left wheels
         public static final double kWheelBase = Units.inchesToMeters(23.5);
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
@@ -79,7 +75,7 @@ public final class Constants {
     }
 
     public static class OIConstants{
-        public static final double K_DEADBAND = .15;
+        public static final double K_DEADBAND = .20;
     }
 
     public static final class AutoConstants {

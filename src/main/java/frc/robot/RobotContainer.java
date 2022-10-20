@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -54,7 +56,9 @@ public class RobotContainer {
       // Configure the button bindings
 
       configureButtonBindings();
-      
+      DataLogManager.logNetworkTables(true);
+      DataLogManager.start();
+      DataLogManager.log("Started the DataLogManager!!!");
     }
   
     /**

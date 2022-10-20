@@ -14,12 +14,15 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.enums.WheelPosition;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
@@ -28,7 +31,10 @@ import com.kauailabs.navx.frc.AHRS;
 public class SwerveSubsystem extends SubsystemBase{
     
     private ArrayList<SwerveModuleState> moduleStates = new ArrayList<>();
+    private ArrayList<SwerveModule> swerveModules = new ArrayList<>();
+
     private final SwerveModule frontLeft = new SwerveModule(
+        WheelPosition.FRONT_LEFT,
         Constants.RoboRioPortConfig.FRONT_LEFT_DRIVE,
         Constants.RoboRioPortConfig.FRONT_LEFT_TURN,
         false,
@@ -36,46 +42,51 @@ public class SwerveSubsystem extends SubsystemBase{
         Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_LEFT,
         Constants.RoboRioPortConfig.kFrontLeftDriveAbsoluteEncoderOffsetRad,
         true,
-        IdleMode.kCoast,
+        IdleMode.kBrake,
         IdleMode.kCoast);
 
     private final SwerveModule frontRight = new SwerveModule(
-            Constants.RoboRioPortConfig.FRONT_RIGHT_DRIVE,
-            Constants.RoboRioPortConfig.FRONT_RIGHT_TURN,
-            false,
-            false,
-            Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_RIGHT,
-            Constants.RoboRioPortConfig.kFrontRightDriveAbsoluteEncoderOffsetRad,
-            true,
-            IdleMode.kCoast,
-            IdleMode.kCoast);
+        WheelPosition.FRONT_RIGHT,
+        Constants.RoboRioPortConfig.FRONT_RIGHT_DRIVE,
+        Constants.RoboRioPortConfig.FRONT_RIGHT_TURN,
+        false,
+        false,
+        Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_RIGHT,
+        Constants.RoboRioPortConfig.kFrontRightDriveAbsoluteEncoderOffsetRad,
+        true,
+        IdleMode.kBrake,
+        IdleMode.kCoast);
 
     private final SwerveModule backLeft = new SwerveModule(
-            Constants.RoboRioPortConfig.BACK_LEFT_DRIVE,
-            Constants.RoboRioPortConfig.BACK_LEFT_TURN,
-            false,
-            false,
-            Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_LEFT,
-            Constants.RoboRioPortConfig.kBackLeftDriveAbsoluteEncoderOffsetRad,
-            true,
-            IdleMode.kCoast,
-            IdleMode.kCoast);
+        WheelPosition.BACK_LEFT,
+        Constants.RoboRioPortConfig.BACK_LEFT_DRIVE,
+        Constants.RoboRioPortConfig.BACK_LEFT_TURN,
+        false,
+        false,
+        Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_LEFT,
+        Constants.RoboRioPortConfig.kBackLeftDriveAbsoluteEncoderOffsetRad,
+        true,
+        IdleMode.kBrake,
+        IdleMode.kCoast);
 
     private final SwerveModule backRight = new SwerveModule(
-            Constants.RoboRioPortConfig.BACK_RIGHT_DRIVE,
-            Constants.RoboRioPortConfig.BACK_RIGHT_TURN,
-            false,
-            false,
-            Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_RIGHT,
-            Constants.RoboRioPortConfig.kBackRightDriveAbsoluteEncoderOffsetRad,
-            true,
-            IdleMode.kCoast,
-            IdleMode.kCoast);
+        WheelPosition.BACK_RIGHT,
+        Constants.RoboRioPortConfig.BACK_RIGHT_DRIVE,
+        Constants.RoboRioPortConfig.BACK_RIGHT_TURN,
+        false,
+        false,
+        Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_RIGHT,
+        Constants.RoboRioPortConfig.kBackRightDriveAbsoluteEncoderOffsetRad,
+        true,
+        IdleMode.kBrake,
+        IdleMode.kCoast);
 
     //idk if this is the gyro we have 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
     private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
      new Rotation2d(0));
+    private int loopCount = 0;
+
     public SwerveSubsystem(){
         new Thread(() -> {
             try {
@@ -84,10 +95,18 @@ public class SwerveSubsystem extends SubsystemBase{
             } catch (Exception e) {
             }
         }).start(); 
+
+        // Initialize the moduleStates array
         moduleStates.add(new SwerveModuleState());
         moduleStates.add(new SwerveModuleState());
         moduleStates.add(new SwerveModuleState());
         moduleStates.add(new SwerveModuleState());
+        
+        // Initialize the swerveModules array
+        this.swerveModules.add(this.frontLeft);
+        this.swerveModules.add(this.frontRight);
+        this.swerveModules.add(this.backLeft);
+        this.swerveModules.add(this.backRight);
     }
 
     public double getHeading(){
@@ -131,19 +150,48 @@ public void stopModules(){
 public void periodic() {
     odometry.update(getRotation2d(), frontLeft.getState(), frontRight.getState(),backLeft.getState(), backRight.getState());
     SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+    
+    SmartDashboard.putNumber("Loop Count: ", loopCount++);
+    // DataLogManager.log(String.format("Loop count %d", loopCount));
 
-    SmartDashboard.putNumber("FL Angle", frontLeft.getAbsoluteEncoderRadians());
-    SmartDashboard.putNumber("FL Turning Encoder", frontLeft.getTurningPosition());
-    SmartDashboard.putNumber("FR Angle", frontRight.getAbsoluteEncoderRadians());
-    SmartDashboard.putNumber("BL Angle", backLeft.getAbsoluteEncoderRadians());
-    SmartDashboard.putNumber("BR Angle", backRight.getAbsoluteEncoderRadians());
-    SmartDashboard.putNumber("BL Left Encoder Voltage", backLeft.getAbsoluteEncoder().getVoltage());
+    for (SwerveModule swerveModule: swerveModules){
+        // SmartDashboard.putNumber(String.format("%s Angle", swerveModule.wheelPosition.name()), swerveModule.getAbsoluteEncoderRadians());
+        SmartDashboard.putNumber(String.format("%s Angle", swerveModule.wheelPosition.name()), swerveModule.getAbsoluteEncoderRadians());
+        SmartDashboard.putNumber(String.format("%s Turning Encoder", swerveModule.wheelPosition.name()), swerveModule.getTurningPosition());
+        SmartDashboard.putNumber(String.format("%s Target Angle", swerveModule.wheelPosition.name()), swerveModule.getState().angle.getRadians());
+    }
+    // SmartDashboard.putNumber("FL Angle", frontLeft.getAbsoluteEncoderRadians());
+    // SmartDashboard.putNumber("FL Turning Encoder", frontLeft.getTurningPosition());
+    // SmartDashboard.putNumber("FR Angle", frontRight.getAbsoluteEncoderRadians());
+    // SmartDashboard.putNumber("BL Angle", backLeft.getAbsoluteEncoderRadians());
+    // SmartDashboard.putNumber("BR Angle", backRight.getAbsoluteEncoderRadians());
+    // SmartDashboard.putNumber("BL Encoder Voltage", backLeft.getAbsoluteEncoder().getVoltage());
     SmartDashboard.putNumber("5V RobotController", RobotController.getCurrent5V());
     
-    SmartDashboard.putNumber("FL Target Angle", moduleStates.get(0).angle.getRadians());
+    // SmartDashboard.putNumber("FL Target Angle", moduleStates.get(0).angle.getRadians());
     SmartDashboard.putNumber("Gyro", gyro.getAngle());
-
     SmartDashboard.putNumber("Mystery", getHeading());
+
+    // DataLogManager.log(String.format("Back Left Encoder Voltage %f", backLeft.getAbsoluteEncoder().getVoltage()));
+    // DataLogManager.log(String.format("Back Right Encoder Voltage %f", backRight.getAbsoluteEncoder().getVoltage()));
+
+
+    // DataLogManager.log(String.format("Back left Angle %f", backLeft.getAbsoluteEncoderRadians()));
+    // DataLogManager.log(String.format("Back right Angle %f", backRight.getAbsoluteEncoderRadians()));
+    // DataLogManager.log(String.format("Front left Angle %f", frontLeft.getAbsoluteEncoderRadians()));
+    // DataLogManager.log(String.format("Front right Angle %f", frontRight.getAbsoluteEncoderRadians()));
+
+    // DataLogManager.log(String.format("Voltage %f", RobotController.getCurrent5V()));
+}
+
+@Override
+public void initSendable(SendableBuilder builder) {
+    // TODO Auto-generated method stub
+    super.initSendable(builder);
+    builder.addDoubleProperty("FL Power", () -> frontLeft.getDriveVelocity(), null);
+    builder.addDoubleProperty("FR Power", () -> frontRight.getDriveVelocity(), null);
+    builder.addDoubleProperty("BL Power", () -> backLeft.getDriveVelocity(), null);
+    builder.addDoubleProperty("BR Power", () -> backRight.getDriveVelocity(), null);
 }
 
 }
