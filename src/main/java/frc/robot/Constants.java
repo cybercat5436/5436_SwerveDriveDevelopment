@@ -47,16 +47,11 @@ public final class Constants {
         public static final int ABSOLUTE_ENCODER_BACK_LEFT = 2;
         public static final int ABSOLUTE_ENCODER_BACK_RIGHT = 3;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -2.32;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -2.53;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -1.73;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 1.52;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 2.82;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 2.74;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -1.77;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -2.50;
         
-
-
-        //Constants from manufacturer
-        public static final double DRIVE_MOTOR_GEAR_RATIO = 8.31;
-    
     }
 
 
