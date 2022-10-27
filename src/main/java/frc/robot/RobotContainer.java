@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ManualEncoderCalibration;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -39,7 +41,8 @@ public class RobotContainer {
         () -> -xboxController.getRightX(),
         () -> !xboxController.getStartButtonPressed()));
       // Configure the button bindings
-
+      ManualEncoderCalibration manualEncoderCalibration = new ManualEncoderCalibration(swerveSubsystem);
+      SmartDashboard.putData(manualEncoderCalibration);
       configureButtonBindings();
       DataLogManager.logNetworkTables(true);
       DataLogManager.start();

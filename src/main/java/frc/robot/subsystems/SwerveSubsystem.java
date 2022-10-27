@@ -109,6 +109,11 @@ public class SwerveSubsystem extends SubsystemBase{
     return Math.IEEEremainder(-(gyro.getAngle()), 360);
 }
 
+public void zeroTurningEncoders(){
+    for(int x=0; x<4; x++){
+        swerveModules.get(x).zeroTurningEncoder();
+    }
+}
 public Rotation2d getRotation2d(){
 
     return Rotation2d.fromDegrees(getHeading());

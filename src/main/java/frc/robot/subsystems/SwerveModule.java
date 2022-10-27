@@ -119,6 +119,10 @@ public class SwerveModule implements Sendable{
     DataLogManager.log(String.format("after zero absoluteEncoder %.2f", this.getAbsoluteEncoderRadians()));
   }
 
+  public void zeroTurningEncoder(){
+    turningEncoder.setPosition(0);  
+  }
+
   public double getDrivePosition(){
     return driveEncoder.getPosition();
   }
