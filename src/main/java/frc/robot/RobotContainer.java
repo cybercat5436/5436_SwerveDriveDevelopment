@@ -8,9 +8,12 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.SerializeJsonObject;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.cybercatclasses.AbsEncoderOffsets;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -44,6 +47,8 @@ public class RobotContainer {
       DataLogManager.logNetworkTables(true);
       DataLogManager.start();
       DataLogManager.log("Started the DataLogManager!!!");
+
+      SmartDashboard.putData("Serialize Data", new SerializeJsonObject(new AbsEncoderOffsets(44,33)));
     }
   
     /**

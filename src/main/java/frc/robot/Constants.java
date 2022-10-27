@@ -47,15 +47,16 @@ public final class Constants {
         public static final int ABSOLUTE_ENCODER_BACK_RIGHT = 3;
 
         public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 2.82;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 2.74;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -1.77;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -2.50;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 2.71;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -1.57;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -2.76;
             
     }
 
     public static class DriveConstants{
         public static final double kTeleDriveMaxSpeedMetersPerSecond = 4;
         public static final double kPhysicalMaxSpeedMetersPerSecond = 8;
+        public static final double kTeleDriveMaxTurnRadiansPerSecond = 2*2*Math.PI;
         public static final double kTrackWidth = Units.inchesToMeters(19);
         // Distance between right and left wheels
         public static final double kWheelBase = Units.inchesToMeters(23.5);

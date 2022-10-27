@@ -61,7 +61,7 @@ public class SwerveJoystickCmd extends CommandBase {
         //turningSpeed = Math.abs(turningSpeed) > OIConstants.K_DEADBAND ? turningSpeed : 0.0;
 
         if (Math.abs(turningSpeed) > OIConstants.K_DEADBAND){
-            turningSpeed *= DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+            turningSpeed *= DriveConstants.kTeleDriveMaxTurnRadiansPerSecond;
         } else {
             turningSpeed = 0.0;
         }
@@ -87,7 +87,7 @@ public class SwerveJoystickCmd extends CommandBase {
         swerveSubsystem.setModuleStates(moduleStates);
         for(int i = 0; i< moduleStates.length; i++){
 
-            DataLogManager.log(String.format("module %d %f", i, moduleStates[i].speedMetersPerSecond));
+            // DataLogManager.log(String.format("module %d %f", i, moduleStates[i].speedMetersPerSecond));
 
         }
         
