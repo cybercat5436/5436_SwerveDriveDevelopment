@@ -62,6 +62,7 @@ public class RobotContainer {
       DataLogManager.logNetworkTables(true);
       DataLogManager.start();
       DataLogManager.log("Started the DataLogManager!!!");
+    
     }
   
     /**
@@ -91,9 +92,13 @@ public class RobotContainer {
              /** start on this position*/ new Pose2d(0, 0, new Rotation2d(0)),
             /**go through these points on the way through */  
              List.of(
-                        new Translation2d(1, 0),
-                        new Translation2d(0, 0)),
-                new Pose2d(1, 1, Rotation2d.fromDegrees(0)), trajectoryConfig);
+                        new Translation2d(0, -2.5),
+                        new Translation2d(-2.5, -2.5),
+                        new Translation2d(-2.5,0)),
+ 
+    
+
+                new Pose2d(0, 0, Rotation2d.fromDegrees(0)), trajectoryConfig);
                 
     /**             List.of(
                         new Translation2d(0,1),
