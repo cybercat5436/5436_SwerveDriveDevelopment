@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 
+import javax.xml.namespace.QName;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 
@@ -23,6 +25,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
 
+
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.Scanner;
+import java.io.IOException;
+
+
 /** Add your docs here. */
 public class SwerveSubsystem extends SubsystemBase{
 
@@ -30,7 +39,12 @@ public class SwerveSubsystem extends SubsystemBase{
     private double frontRightDriveAbsoluteEncoderOFfsetRad;
     private double backLeftDriveAbsoluteEncoderOffsetRad;
     private double backRightDriveAbsoluteEncoderOffsetRad;
-    boolean zeroEncoders = false;
+
+    private boolean zeroEncoders;
+    
+    File file;
+    PrintWriter out;
+    Scanner reader;
     
     private ArrayList<SwerveModuleState> moduleStates = new ArrayList<>();
     private final SwerveModule frontLeft = new SwerveModule(
@@ -79,7 +93,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
     //idk if this is the gyro we have 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
-    public SwerveSubsystem(){
+    public SwerveSubsystem() throws IOException{
         new Thread(() -> {
             try {
                 Thread.sleep(1000);
@@ -91,6 +105,19 @@ public class SwerveSubsystem extends SubsystemBase{
         moduleStates.add(new SwerveModuleState());
         moduleStates.add(new SwerveModuleState());
         moduleStates.add(new SwerveModuleState());
+
+        file = new File("home/lvuser/EncoderOffsets.txt");
+        if(!file.exists()){
+            file.createNewFile();
+        }
+        
+        reader = new Scanner(file);
+        out = new PrintWriter(file);
+
+        frontLeftDriveAbsoluteEncoderOffsetRad = Double.parseDouble(reader.next());
+        frontRightDriveAbsoluteEncoderOFfsetRad = Double.parseDouble(reader.next());
+        backLeftDriveAbsoluteEncoderOffsetRad = Double.parseDouble(reader.next());
+        backRightDriveAbsoluteEncoderOffsetRad = Double.parseDouble(reader.next());
     }
 
     public double getHeading(){
@@ -137,6 +164,8 @@ public void periodic() {
     SmartDashboard.putNumber("Gyro", gyro.getAngle());
 
     SmartDashboard.putNumber("Mystery", getHeading());
+
+
     
     
 }
@@ -147,18 +176,32 @@ public void initSendable(SendableBuilder builder, boolean zeroEncoders){
     builder.addDoubleProperty("Front Left Absolute Encoder Radians", () -> this.frontLeftDriveAbsoluteEncoderOffsetRad, value -> this.frontLeftDriveAbsoluteEncoderOffsetRad = value);
     builder.addDoubleProperty("Front Right Absolute Encoder Radians", () -> this.frontRightDriveAbsoluteEncoderOFfsetRad, value -> this.frontRightDriveAbsoluteEncoderOFfsetRad = value);
 
-    builder.addBooleanProperty("Zero Encoders", () -> this.zeroEncoders, this::zeroEncoders);
+    builder.addBooleanProperty("Zero Encoders", () -> this.zeroEncoders, arg0 -> {
+        try {
+            zeroEncoders(arg0);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    });
 
 }
 
-public void zeroEncoders(boolean resetFlag){
-    backLeftDriveAbsoluteEncoderOffsetRad = 0;
-    backRightDriveAbsoluteEncoderOffsetRad = 0;
-    frontLeftDriveAbsoluteEncoderOffsetRad = 0;
-    backRightDriveAbsoluteEncoderOffsetRad = 0;
+public void zeroEncoders(boolean resetFlag) throws IOException{
+    if (resetFlag){
+        frontLeft.resetEncoders();
+        frontRight.resetEncoders();
+        backRight.resetEncoders();
+        backLeft.resetEncoders();
 
-    zeroEncoders = false; 
+        out.println(String.valueOf(frontLeftDriveAbsoluteEncoderOffsetRad));
+        out.println(String.valueOf(frontRightDriveAbsoluteEncoderOFfsetRad));
+        out.println(String.valueOf(backLeftDriveAbsoluteEncoderOffsetRad));
+        out.println(String.valueOf(backRightDriveAbsoluteEncoderOffsetRad));
+    }
+
     
+   zeroEncoders = false; 
 }
 
 }

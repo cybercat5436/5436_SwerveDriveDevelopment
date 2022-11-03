@@ -103,7 +103,7 @@ public class SwerveModule{
   }
   */
 
-  private void resetEncoders() {
+  public void resetEncoders() {
     driveEncoder.setPosition(0.0);
     System.out.println(String.format("turningEncoder %.2f", turningEncoder.getPosition()));
     System.out.println(String.format("absoluteEncoder %.2f", this.getAbsoluteEncoderRadians()));
