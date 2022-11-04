@@ -5,6 +5,8 @@
 package frc.robot;
 
 import java.util.List;
+import java.io.IOException;
+import java.nio.file.Path;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -14,7 +16,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -47,6 +51,9 @@ public class RobotContainer {
     private final Joystick driverJoystick = new Joystick(0);
     private final XboxController xboxController = new XboxController(1);
 
+    String trajectoryJSON = "paths/Unnamed.wpilib.json";
+    Trajectory trajectory3 = new Trajectory();
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
       swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -63,6 +70,12 @@ public class RobotContainer {
       DataLogManager.start();
       DataLogManager.log("Started the DataLogManager!!!");
     
+      try {
+              Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+              trajectory3 = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      } catch (IOException ex) {
+              System.out.println("Unable to open trajectory");
+      }
     }
   
     /**
@@ -92,14 +105,24 @@ public class RobotContainer {
              /** start on this position*/ new Pose2d(0, 0, new Rotation2d(0)),
             /**go through these points on the way through */  
              List.of(
-                        new Translation2d(0, -2.5),
-                        new Translation2d(-2.5, -2.5),
-                        new Translation2d(-2.5,0)),
+                        
+                        new Translation2d(1.75, 1.75),
+                        new Translation2d(3.5, 0),
+                        new Translation2d(1.75, -1.75)),
  
     
-
                 new Pose2d(0, 0, Rotation2d.fromDegrees(0)), trajectoryConfig);
                 
+
+        Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
+                List.of(
+                        new Pose2d(0, 0, new Rotation2d(0)),
+                        new Pose2d(1.75, 1.75, Rotation2d.fromDegrees(0)),
+                        new Pose2d(3.5, 0, Rotation2d.fromDegrees(0)),
+                        new Pose2d(1.75, -1.75, Rotation2d.fromDegrees(0)),
+                        new Pose2d(0, 0, Rotation2d.fromDegrees(0))),
+                         trajectoryConfig);
+    
     /**             List.of(
                         new Translation2d(0,1),
                         new Pose2d(0, 1, Rotation2d.fromDegrees(180)), trajectoryConfig);
@@ -130,7 +153,7 @@ public class RobotContainer {
 
       // 4. Construct command to follow trajectory
       SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-              trajectory,
+              trajectory3,
               swerveSubsystem::getPose,
               DriveConstants.kDriveKinematics,
               xController,
@@ -151,7 +174,10 @@ public class RobotContainer {
 
       // 5. Add some init and wrap-up, and return everything
       return new SequentialCommandGroup(
-              new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())), swerveControllerCommand,new InstantCommand(() -> swerveSubsystem.stopModules()));
+              new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())), 
+              new InstantCommand(() -> swerveSubsystem.zeroTurningEncoders()),
+              swerveControllerCommand, 
+              new InstantCommand(() -> swerveSubsystem.stopModules()));
               // new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory2.getInitialPose())), swerveControllerCommand2,new InstantCommand(() -> swerveSubsystem.stopModules()));
               
   }
