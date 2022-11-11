@@ -84,7 +84,7 @@ public class SwerveSubsystem extends SubsystemBase{
     //idk if this is the gyro we have 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
     private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
-     new Rotation2d(0));
+     new Rotation2d(0), new Pose2d(0.0, 3.0, new Rotation2d(0)));
     private int loopCount = 0;
 
     public SwerveSubsystem(){
