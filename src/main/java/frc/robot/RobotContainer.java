@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ReadPathStartPoint;
 import frc.robot.commands.SerializeJsonObject;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.cybercatclasses.AbsEncoderOffsets;
@@ -49,6 +50,7 @@ public class RobotContainer {
       DataLogManager.log("Started the DataLogManager!!!");
 
       SmartDashboard.putData("Serialize Data", new SerializeJsonObject(new AbsEncoderOffsets(44,33)));
+      SmartDashboard.putData("Read Path", new ReadPathStartPoint());
     }
   
     /**
