@@ -496,6 +496,28 @@
               "_source0": "network_table:///SmartDashboard/FRONT_RIGHT Angle",
               "_title": "FRONT_RIGHT Angle"
             }
+          },
+          "1,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Serialize Data",
+              "_title": "Serialize Data"
+            }
+          },
+          "2,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Read Path",
+              "_title": "Read Path"
+            }
           }
         }
       }
@@ -847,6 +869,28 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/BACK_LEFT Turning Encoder",
               "_title": "/SmartDashboard/BACK_LEFT Turning Encoder"
+            }
+          },
+          "7,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Read Path",
+              "_title": "/SmartDashboard/Read Path"
+            }
+          },
+          "7,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Serialize Data",
+              "_title": "/SmartDashboard/Serialize Data"
             }
           }
         }

@@ -4,17 +4,27 @@
 
 package frc.robot.cybercatclasses;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import edu.wpi.first.math.geometry.Pose2d;
 
 /** Add your docs here. */
+@JsonRootName(value = "path")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PathFromJson {
-    private double acceleration;
-    private double curvature;
+    private @JsonIgnore() double acceleration;
+    private @JsonIgnore() double curvature;
 
 
-    private Pose2d pose;
-    private double time;
-    private double velocity;
+    private @JsonProperty(required = true, value="pose") Pose2d pose;
+    private @JsonIgnore() double time;
+    private @JsonIgnore() double velocity;
 
     public PathFromJson(){}
 
@@ -26,50 +36,62 @@ public class PathFromJson {
         this.velocity = vel;
     }
 
-    public double getAcceleration() {
-        return this.acceleration;
-    }
+    // public double getAcceleration() {
+    //     return this.acceleration;
+    // }
 
-    public void setAcceleration(double a){
-        this.acceleration = a;
-    }
-    public double getCurvature() {
-        return curvature;
-    }
+    // public void setAcceleration(double a){
+    //     this.acceleration = a;
+    // }
+    // public double getCurvature() {
+    //     return curvature;
+    // }
 
-    public void setCurvature(double curvature) {
-        this.curvature = curvature;
-    }
+    // public void setCurvature(double curvature) {
+    //     this.curvature = curvature;
+    // }
 
-    public Pose2d getPose() {
-        return pose;
-    }
+    // public Pose2d getPose() {
+    //     return pose;
+    // }
 
-    public void setPose(Pose2d pose) {
-        this.pose = pose;
-    }
+    // public void setPose(Pose2d pose) {
+    //     this.pose = pose;
+    // }
 
-    public double getTime() {
-        return time;
-    }
+    // public double getTime() {
+    //     return time;
+    // }
 
-    public void setTime(double time) {
-        this.time = time;
-    }
+    // public void setTime(double time) {
+    //     this.time = time;
+    // }
 
-    public double getVelocity() {
-        return velocity;
-    }
+    // public double getVelocity() {
+    //     return velocity;
+    // }
 
-    public void setVelocity(double velocity) {
-        this.velocity = velocity;
-    }
+    // public void setVelocity(double velocity) {
+    //     this.velocity = velocity;
+    // }
 
     @Override
     public String toString() {
         // TODO Auto-generated method stub
         return String.format("The path starting point is (%.1f, %.1f) with heading (%.1f) degrees",
             this.pose.getX(), this.pose.getY(), this.pose.getRotation().getDegrees());
+    }
+
+    public String toJson() {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
 
     

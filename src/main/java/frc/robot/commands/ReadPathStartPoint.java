@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -35,8 +36,14 @@ public class ReadPathStartPoint extends CommandBase {
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("output/Unnamed.wpilib.json");
       File file = trajectoryPath.toFile();
-      List<PathFromJson> pathFromJson = objectMapper.readValue(file, new TypeReference<List<PathFromJson>>(){} );
-      System.out.println(pathFromJson.get(0));
+      
+      //
+      // List<PathFromJson> pathFromJson = objectMapper.readValue(file, new TypeReference<List<PathFromJson>>(){} );
+      List<PathFromJson> pathFromJson = Arrays.asList(objectMapper.readValue(file, PathFromJson[].class));  // 10x faster than TypeReference above
+      //
+      PathFromJson p = pathFromJson.get(0);
+      System.out.println(p);
+      System.out.println(p.toJson());
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
