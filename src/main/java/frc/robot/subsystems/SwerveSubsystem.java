@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -40,7 +42,7 @@ public class SwerveSubsystem extends SubsystemBase{
         Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_LEFT,
         Constants.RoboRioPortConfig.kFrontLeftDriveAbsoluteEncoderOffsetRad,
         true,
-        IdleMode.kBrake,
+        IdleMode.kCoast,
         IdleMode.kCoast);
 
     private final SwerveModule frontRight = new SwerveModule(
@@ -52,7 +54,7 @@ public class SwerveSubsystem extends SubsystemBase{
         Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_FRONT_RIGHT,
         Constants.RoboRioPortConfig.kFrontRightDriveAbsoluteEncoderOffsetRad,
         true,
-        IdleMode.kBrake,
+        IdleMode.kCoast,
         IdleMode.kCoast);
 
     private final SwerveModule backLeft = new SwerveModule(
@@ -64,7 +66,7 @@ public class SwerveSubsystem extends SubsystemBase{
         Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_LEFT,
         Constants.RoboRioPortConfig.kBackLeftDriveAbsoluteEncoderOffsetRad,
         true,
-        IdleMode.kBrake,
+        IdleMode.kCoast,
         IdleMode.kCoast);
 
     private final SwerveModule backRight = new SwerveModule(
@@ -76,11 +78,13 @@ public class SwerveSubsystem extends SubsystemBase{
         Constants.RoboRioPortConfig.ABSOLUTE_ENCODER_BACK_RIGHT,
         Constants.RoboRioPortConfig.kBackRightDriveAbsoluteEncoderOffsetRad,
         true,
-        IdleMode.kBrake,
+        IdleMode.kCoast,
         IdleMode.kCoast);
 
     //idk if this is the gyro we have 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+    private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
+     new Rotation2d(0), new Pose2d(0.0, 3.0, new Rotation2d(0)));
     private int loopCount = 0;
 
     public SwerveSubsystem(){
@@ -119,6 +123,14 @@ public Rotation2d getRotation2d(){
     return Rotation2d.fromDegrees(getHeading());
 }
 
+public Pose2d getPose(){
+    return odometry.getPoseMeters();
+}
+
+public void resetOdometry(Pose2d pose){
+    odometry.resetPosition(pose, getRotation2d());
+}
+
 public void zeroHeading(){
     gyro.reset();
 }
@@ -141,6 +153,8 @@ public void stopModules(){
 }
 @Override
 public void periodic() {
+    odometry.update(getRotation2d(), frontLeft.getState(), frontRight.getState(),backLeft.getState(), backRight.getState());
+    SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
     
     SmartDashboard.putNumber("Loop Count: ", loopCount++);
     // DataLogManager.log(String.format("Loop count %d", loopCount));
